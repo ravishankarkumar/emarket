@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Learning node.js with Coder Pigeon Academy">
+  <meta name="author" content="Coder Pigeon Academy">
+  <title>{{ title }}</title>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/avabodh.css">
+  {% block more-styles %}
+  {% endblock %}
+</head>
+<body>
+  <header id="header">
+    <div class="header-middle">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="logo pull-left">
+              <a href="/"><img src="images/layout/logo.png" alt="" /></a><!-- change the image later-->
+            </div>
+          </div>
+          <div class="col-sm-8">
+            <div class="shop-menu pull-right">
+              <ul class="nav navbar-nav">
+                {% if user %}
+                <li><a href="#"><i class="fa fa-crosshairs"></i> Welcome {{user}} !</a></li>
+                <li><a href="/cart"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+                <li><a href="/logout"><i class="fa fa-shopping-cart"></i> Log Out</a></li>
+                {% else %}
+                <li><a href="/login"><i class="fa fa-lock"></i> Login</a></li>
+                <li><a href="/signup"><i class="fa fa-lock"></i> Sign Up</a></li>
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  {% block main-content %}
+  {% endblock %}
+
+  <footer id="footer">
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="row">
+          <p class="pull-left">Copyright © 2015-2016 <span><a href="http://www.ravishankarkumar.com">Ravi Shankar</a></span></p>
+          <p class="pull-right">Demo app for <span><a target="_blank" href="https://nodejs.org/">node Class</a> of <a href="https://www.facebook.com/workspace.mnnit">MNNIT Workspace.</a></span></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/javascripts/jquery.js"></script>
+  <script src="/javascripts/bootstrap.min.js"></script>
+
+
+<script type="text/javascript">
+$(document).ready(function() { 
+  var docHeight = $(window).height();
+  var footerHeight = $('#footer').height();
+  var footerTop = $('#footer').position().top + footerHeight;  
+  if (footerTop < docHeight) {
+    $('#footer').css('margin-top', 10 + (docHeight - footerTop) + 'px');
+  }
+});
+</script>
+
+  {% block more-script %}
+  {% endblock %}
+</body>
+</html>

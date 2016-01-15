@@ -1,0 +1,71 @@
+{% extends 'layout.html' %}
+
+  {% block more-styles %}
+  <link rel="stylesheet" type="text/css" href="/stylesheets/cart.css">
+  {% endblock %}
+
+  {% block main-content %}
+ 	<section id="cart_items">
+		<div class="container">
+			<div class="table-responsive cart_info">
+				<table class="table table-condensed">
+					<thead>
+						<tr class="cart_menu">
+							<td class="image">Item</td>
+							<td class="description"></td>
+							<td class="total">Total</td>
+							<td></td>
+						</tr>
+					</thead>
+					<tbody id="actualProduct">
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section> <!--/#cart_items-->
+	<section id="do_action">
+		<div class="container">
+			<h4 class="pull-right"><a href="/buyCart" class="goToCheckout"> Buy all the products in the cart!</a></h4>
+		</div>
+	</section>
+  {% endblock %}
+
+  {% block more-script %}
+  <script type="text/javascript">
+  $(document).ready(function(){
+    var totalprice = 0;
+      $.ajax({
+        url: '/showCart',
+        type: "GET",
+        success: function(data){
+          //console.log("In ajax+success");
+          //alert(data);
+          $("#actualProduct").empty();
+          if(data.length==0){
+            $("#actualProduct").append("<center>This section is empty. Ask the admin to add product in this category also.<center>")
+          }
+          for(var product in data.products){
+          	var baseurl='/getProduct/';
+          	var $fetchurl=baseurl+data.products[product];
+          	//console.log($fetchurl);
+          	//alert($fetchurl);
+          	$.ajax({
+          		url: $fetchurl,
+          		type: "GET",
+          		success: function(data){
+          			$("#actualProduct").append('<tr><td class="cart_product"><a href=""><img src="'+data.cartImage+'" alt=""></a></td><td class="cart_description"><h4><a href="">'+" "+data.name+'</a></h4><p>Web ID: '+" "+data._id+'</p></td><td class="cart_total"><p class="cart_total_price">Rs.'+data.price+'</p></td><td class="cart_delete"><a class="cart_quantity_delete" href="/removeFromCart/'+data._id+'"><i class="fa fa-times"></i></a></td></tr>');
+                totalprice += data.price;
+          		},
+          		error: function(data){
+          			console.log("Error occured while fetching individual product");
+          		}
+          	});
+          }
+        },
+        error: function(data){
+          console.log("In ajax, error");
+        }
+      });
+    });
+  </script>
+  {% endblock %}
